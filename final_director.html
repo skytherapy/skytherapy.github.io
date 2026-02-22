@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>AI DIRECTOR MASTER BIBLE v20.0 (85 TECHS)</title>
+    <style>
+        :root { --main: #00d2ff; --accent: #ff0055; --bg: #050505; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 20px; }
+        .header { text-align: center; border-bottom: 2px solid var(--accent); padding-bottom: 15px; margin-bottom: 30px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
+        .category { background: #0f0f0f; border: 1px solid #333; border-radius: 12px; padding: 20px; }
+        h2 { color: var(--main); border-bottom: 1px solid #444; padding-bottom: 8px; font-size: 1.1em; }
+        .tech-item { 
+            background: #1a1a1a; padding: 10px; margin: 6px 0; border-radius: 6px; cursor: pointer; 
+            border-left: 3px solid var(--main); transition: 0.2s; font-size: 0.9em;
+        }
+        .tech-item:hover { background: #252525; transform: scale(1.02); }
+        .modal { 
+            display: none; position: fixed; z-index: 999; left: 0; top: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.95); justify-content: center; align-items: center; 
+        }
+        .modal-content { 
+            background: #111; padding: 40px; border: 2px solid var(--main); width: 85%; max-width: 650px; 
+            border-radius: 20px; position: relative; box-shadow: 0 0 40px rgba(0,210,255,0.2);
+        }
+        .close { position: absolute; right: 20px; top: 10px; font-size: 40px; cursor: pointer; color: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>🎬 THE MASTER DIRECTOR DATASET (85 TECHS)</h1>
+        <p style="color: #888;">Κάνε κλικ σε οποιαδήποτε τεχνική για την πλήρη ανάλυση Google Lens.</p>
+    </div>
+
+    <div class="grid" id="mainGrid"></div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeM()">&times;</span>
+            <h2 id="mTitle"></h2>
+            <p id="mDesc" style="font-size: 1.2em; line-height: 1.7; color: #ddd;"></p>
+        </div>
+    </div>
+
+    <script>
+        const db = {
+            "🔍 OPTICS & PHYSICS": [
+                {n:"Anamorphic 2x Squeeze", d:"Οβάλ bokeh, μπλε οριζόντια flares και εύρος 2.39:1 για cinematic look."},
+                {n:"Large Format Alexa 65", d:"Αισθητική μεσαίου φορμά με πολύ ρηχό βάθος πεδίου και υψηλή ανάλυση."},
+                {n:"Chromatic Aberration", d:"Χρωματική παραμόρφωση στις άκρες του φακού για vintage και οργανική υφή."},
+                {n:"Split Diopter", d:"Ειδικός φακός που επιτρέπει την ταυτόχρονη εστίαση σε δύο διαφορετικά επίπεδα."},
+                {n:"Lens Compression", d:"Χρήση τηλεφακού που κάνει το φόντο να φαίνεται κολλημένο στο θέμα."},
+                {n:"Focus Breathing", d:"Η ελαφριά αλλαγή του κάδρου όταν αλλάζουμε την εστίαση από κοντά σε μακριά."},
+                {n:"Vintage Coating Flares", d:"Μαλακές αντανακλάσεις φωτός που δίνουν νοσταλγική αίσθηση στο AI."},
+                {n:"Circle of Confusion", d:"Μαθηματικός προσδιορισμός της θολότητας για απόλυτο ρεαλισμό στο bokeh."},
+                {n:"T1.2 Master Prime", d:"Φακός με τεράστιο διάφραγμα για λήψεις σε πολύ χαμηλό φωτισμό."},
+                {n:"Barrel Distortion", d:"Η καμπύλωση των ευθειών σε ευρυγώνιους φακούς για αίσθηση εγγύτητας."},
+                {n:"Aperture Blade Texture", d:"Σχήμα του bokeh (εξάγωνο, οκτάγωνο) ανάλογα με τις λεπίδες του φακού."},
+                {n:"Macro 1:1 Magnification", d:"Λήψεις υπερ-κοντινές που αναδεικνύουν την υφή των υλικών."},
+                {n:"Pro-Mist Diffusion", d:"Φίλτρο που μαλακώνει το δέρμα και κάνει τα φώτα να 'ανθίζουν'."},
+                {n:"Polarized Reflection", d:"Έλεγχος των αντανακλάσεων σε γυαλί ή νερό για καθαρότητα."},
+                {n:"Shift-Tilt Perspective", d:"Αλλαγή του επιπέδου εστίασης για εφέ μινιατούρας."}
+            ],
+            "💡 LIGHTING RATIOS": [
+                {n:"Rembrandt Triangle", d:"Κλασικός φωτισμός με το χαρακτηριστικό τρίγωνο φωτός στο μάγουλο."},
+                {n:"8:1 Lighting Ratio", d:"Ακραία αντίθεση μεταξύ φωτεινής και σκοτεινής πλευράς (Film Noir)."},
+                {n:"Volumetric Tyndall Rays", d:"Ορατές ακτίνες φωτός που περνούν μέσα από ομίχλη ή σκόνη."},
+                {n:"Negative Fill", d:"Χρήση μαύρων επιφανειών για να δημιουργηθούν βαθύτερες σκιές."},
+                {n:"Rim/Kick Backlight", d:"Φως από πίσω που 'ξεκολλάει' το θέμα από το φόντο."},
+                {n:"Butterfly Lighting", d:"Συμμετρικός φωτισμός ομορφιάς με σκιά κάτω από τη μύτη."},
+                {n:"Chiaroscuro", d:"Έντονο παιχνίδι φωτός και σκιάς για τρισδιάστατη αίσθηση."},
+                {n:"Motivated Practical", d:"Φως που πηγάζει από αντικείμενα μέσα στη σκηνή (π.χ. λάμπα)."},
+                {n:"Clamshell Setup", d:"Δύο πηγές φωτός (πάνω-κάτω) για τέλεια φωτισμένα πρόσωπα."},
+                {n:"Broad vs Short Light", d:"Φωτισμός της πλευράς που βλέπει ή δεν βλέπει η κάμερα."},
+                {n:"High-Key Lighting", d:"Φωτεινό πλάνο με ελάχιστες σκιές, ιδανικό για κωμωδίες."},
+                {n:"Cross-Lighting", d:"Φωτισμός από τις πλευρές που τονίζει την υφή των αντικειμένων."},
+                {n:"Bounce Indirect", d:"Φως που αντανακλάται σε τοίχο για να γίνει υπερβολικά μαλακό."},
+                {n:"Candlelight (1800K)", d:"Πολύ θερμό φως που μιμείται την καύση κεριού."},
+                {n:"Sodium Vapor Amber", d:"Το χαρακτηριστικό πορτοκαλί φως των παλιών δρόμων."},
+                {n:"Global Illumination", d:"Φυσική διάχυση του φωτός στο περιβάλλον."},
+                {n:"Hard Specular Highlights", d:"Μικρές, πολύ φωτεινές αντανακλάσεις σε μέταλλα."},
+                {n:"Color Temp Shift", d:"Συνδυασμός θερμού και ψυχρού φωτός στην ίδια σκηνή."},
+                {n:"Barn Door Shaping", d:"Περιορισμός του φωτός σε στενές λωρίδες."},
+                {n:"Gobo Shadow Patterns", d:"Σκιές από δέντρα ή γρίλιες πάνω στο θέμα."}
+            ],
+            "🎥 MOVEMENT & KINETICS": [
+                {n:"Z-Axis Dolly Parallax", d:"Κίνηση κάμερας εμπρός με ταυτόχρονη αλλαγή zoom για βάθος."},
+                {n:"Vertigo (Dolly Zoom)", d:"Το κλασικό εφέ όπου το φόντο μοιάζει να καταρρέει."},
+                {n:"SnorriCam POV", d:"Η κάμερα είναι δεμένη στον ηθοποιό, δίνοντας αίσθηση απομόνωσης."},
+                {n:"180° Shutter Rule", d:"Ο κανόνας για το πόσο blur πρέπει να έχει η κίνηση."},
+                {n:"Technocrane Arc", d:"Σύνθετη κίνηση γερανού σε πολλούς άξονες ταυτόχρονα."},
+                {n:"Whip Pan Swish", d:"Πολύ γρήγορη στροφή της κάμερας που θολώνει τα πάντα."},
+                {n:"Handheld Micro-jitter", d:"Μικρές δονήσεις που δείχνουν ότι η λήψη είναι από άνθρωπο."},
+                {n:"Vertex 360 Orbit", d:"Κυκλική κίνηση γύρω από το θέμα για ηρωική αίσθηση."},
+                {n:"Tracking Shot", d:"Παράλληλη κίνηση με το θέμα σε σταθερή ταχύτητα."},
+                {n:"Jib Reveal Arc", d:"Κίνηση που ξεκινάει από το έδαφος και αποκαλύπτει το τοπίο."},
+                {n:"Low-Angle Push-in", d:"Προσέγγιση του θέματος από χαμηλά για επιβολή."},
+                {n:"Steadicam Float", d:"Σταθερή αλλά ρευστή κίνηση που μοιάζει να πετάει."},
+                {n:"Crash Zoom", d:"Ακαριαίο zoom που προκαλεί έκπληξη (Tarantino style)."},
+                {n:"Point of View POV", d:"Η κάμερα βλέπει ακριβώς μέσα από τα μάτια του ήρωα."},
+                {n:"Bolt Cinebot Speed", d:"Κινήσεις υπερ-υψηλής ταχύτητας από ρομποτικό βραχίονα."}
+            ],
+            "🎨 COLOR & TEXTURE": [
+                {n:"Teal & Orange Grade", d:"Η κλασική αντίθεση χρωμάτων του Hollywood."},
+                {n:"Bleach Bypass", d:"Look με σκληρές σκιές και ξεπλυμένα χρώματα."},
+                {n:"Film Grain (35mm)", d:"Οργανικός κόκκος φιλμ για να μην μοιάζει ψηφιακό το AI."},
+                {n:"ACES Color Space", d:"Επαγγελματικό πρότυπο χρωμάτων για μέγιστη ποιότητα."},
+                {n:"False Color IRE 45", d:"Τεχνική για να είναι το δέρμα τέλεια φωτισμένο."},
+                {n:"LUT Rec.709 Mapping", d:"Μετατροπή του 'γκρι' βίντεο σε κινηματογραφικό χρώμα."},
+                {n:"Cross-Processing", d:"Παραμορφωμένα χρώματα για καλλιτεχνικό αποτέλεσμα."},
+                {n:"Monochromatic Cyan", d:"Ψυχρό, μπλε-πράσινο look για sci-fi ατμόσφαιρα."},
+                {n:"Speed Ramping", d:"Αλλαγή ταχύτητας από slow motion σε κανονικό."},
+                {n:"Achromatic Grade", d:"Ασπρόμαυρο look με υψηλή ποιότητα αργύρου."},
+                {n:"Pixel Motion Blur", d:"Τεχνητή θόλωση κίνησης για ομαλό αποτέλεσμα."},
+                {n:"Color Isolation", d:"Απομόνωση ενός χρώματος (π.χ. μόνο το κόκκινο)."},
+                {n:"Analog Halation", d:"Κόκκινη λάμψη γύρω από τα πολύ δυνατά φώτα."},
+                {n:"HDR Bloom", d:"Λάμψη στα φωτεινά σημεία που ξεπερνάει τα όρια."},
+                {n:"Shadow Detail Crushing", d:"Εξαφάνιση των λεπτομερειών στις σκιές για μυστήριο."}
+            ],
+            "⚙️ SPECIALIZED RIGS": [
+                {n:"Technocrane 50'", d:"Ο μεγαλύτερος γερανός για λήψεις που κόβουν την ανάσα."},
+                {n:"Bolt Cinebot", d:"Ρομπότ που κάνει την ίδια κίνηση με ακρίβεια χιλιοστού."},
+                {n:"Snorkel Lens", d:"Φακός-σωλήνας για λήψεις μέσα από τρύπες ή στο έδαφος."},
+                {n:"Russian Arm U-Crane", d:"Γερανός πάνω σε SUV για γυρίσματα σε κίνηση."},
+                {n:"Gimbal 3-Axis", d:"Ηλεκτρονικός σταθεροποιητής για ομαλές λήψεις."},
+                {n:"POV Helmet Rig", d:"Κράνος με κάμερα για extreme δράση."},
+                {n:"Drones FPV Acro", d:"Drones που κάνουν ακροβατικά σε μεγάλες ταχύτητες."},
+                {n:"Hydroflex Water", d:"Ειδικό περίβλημα για γυρίσματα κάτω από το νερό."},
+                {n:"Wireless FIZ", d:"Τηλεχειρισμός εστίασης και διαφράγματος."},
+                {n:"LED Volume Virtual", d:"Τοίχοι από οθόνες που αντικαθιστούν το green screen."},
+                {n:"Borescope Lens", d:"Φακός για λήψεις στο εσωτερικό αντικειμένων."},
+                {n:"Vibration Isolator", d:"Σύστημα που απορροφά τους κραδασμούς μηχανών."},
+                {n:"Remote Head Tilt", d:"Κεφαλή που ελέγχεται με joystick από μακριά."},
+                {n:"Cable Cam Sweep", d:"Κάμερα που τρέχει πάνω σε συρματόσχοινο."},
+                {n:"Low-Loader Rig", d:"Πλατφόρμα για γυρίσματα μέσα σε αυτοκίνητα."}
+            ]
+        };
+
+        const grid = document.getElementById('mainGrid');
+        for (const [cat, techs] of Object.entries(db)) {
+            let col = `<div class="category"><h2>${cat}</h2>`;
+            techs.forEach(t => {
+                col += `<div class="tech-item" onclick="openM('${t.n}', '${t.d}')"><b>${t.n}</b></div>`;
+            });
+            col += `</div>`;
+            grid.innerHTML += col;
+        }
+
+        function openM(t, d) {
+            document.getElementById('mTitle').innerText = t;
+            document.getElementById('mDesc').innerText = d;
+            document.getElementById('modal').style.display = 'flex';
+        }
+        function closeM() { document.getElementById('modal').style.display = 'none'; }
+        window.onclick = (e) => { if(e.target == document.getElementById('modal')) closeM(); }
+    </script>
+</body>
+</html>
