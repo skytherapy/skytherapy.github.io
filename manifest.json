@@ -1,0 +1,45 @@
+{
+  "name": "SkyTherapy",
+  "short_name": "SkyTherapy",
+  "description": "A calming visual therapy experience featuring majestic imagery",
+  "start_url": "/",
+  "display": "fullscreen",
+  "orientation": "any",
+  "theme_color": "#2c3e50",
+  "background_color": "#1a1a1a",
+  "categories": ["lifestyle", "wellness", "entertainment"],
+  "lang": "en",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "Leonardo_Phoenix_10_Create_an_exceptionally_vivid_image_of_a_1.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "Leonardo_Phoenix_10_Create_an_exceptionally_vivid_image_of_a_1.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "form_factor": "wide"
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "shortcuts": [
+    {
+      "name": "View Therapy Image",
+      "short_name": "Therapy",
+      "description": "Open the main therapy image",
+      "url": "/",
+      "icons": [
+        {
+          "src": "Leonardo_Phoenix_10_Create_an_exceptionally_vivid_image_of_a_1.jpg",
+          "sizes": "96x96"
+        }
+      ]
+    }
+  ]
+}

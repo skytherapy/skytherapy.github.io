@@ -1,14 +1,203 @@
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SkyTherapy</title>
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="Leonardo_Phoenix_10_Create_an_exceptionally_vivid_image_of_a_1.jpg" as="image" type="image/jpeg">
+    
+    <!-- DNS prefetch for external resources if any -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
     <style>
-        body { margin: 0; overflow: hidden; }
-        img { width: 100vw; height: 100vh; object-fit: cover; }
+        /* Critical CSS - inline for fastest render */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #1a1a1a; /* Fallback color matching image theme */
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        
+        .image-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+        }
+        
+        .main-image.loaded {
+            opacity: 1;
+        }
+        
+        /* Loading placeholder */
+        .loading-placeholder {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ecf0f1;
+            font-size: 1.2em;
+            opacity: 1;
+            transition: opacity 0.3s ease-in-out;
+        }
+        
+        .loading-placeholder.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #34495e;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Responsive optimizations */
+        @media (max-width: 768px) {
+            .main-image {
+                object-position: center top;
+            }
+        }
+        
+        /* Reduce motion for users who prefer it */
+        @media (prefers-reduced-motion: reduce) {
+            .main-image,
+            .loading-placeholder {
+                transition: none;
+            }
+            
+            .spinner {
+                animation: none;
+            }
+        }
     </style>
 </head>
 <body>
-    <img src="Leonardo_Phoenix_10_Create_an_exceptionally_vivid_image_of_a_1.jpg">
+    <div class="image-container">
+        <div class="loading-placeholder" id="loadingPlaceholder">
+            <div>
+                <div class="spinner"></div>
+                <div>Loading SkyTherapy...</div>
+            </div>
+        </div>
+        
+        <!-- Progressive image loading with multiple format support -->
+        <picture>
+            <!-- Future WebP support when available -->
+            <!-- <source srcset="Leonardo_Phoenix_10_Create_an_exceptionally_vivid_image_of_a_1.webp" type="image/webp"> -->
+            <img 
+                class="main-image" 
+                id="mainImage"
+                src="Leonardo_Phoenix_10_Create_an_exceptionally_vivid_image_of_a_1.jpg"
+                alt="SkyTherapy - A majestic scene of Zeus sitting on a throne in front of a classical temple"
+                loading="eager"
+                decoding="async"
+                fetchpriority="high"
+            >
+        </picture>
+    </div>
+
+    <script>
+        // Performance optimization script
+        (function() {
+            'use strict';
+            
+            const mainImage = document.getElementById('mainImage');
+            const loadingPlaceholder = document.getElementById('loadingPlaceholder');
+            
+            // Image loading optimization
+            function handleImageLoad() {
+                mainImage.classList.add('loaded');
+                loadingPlaceholder.classList.add('hidden');
+                
+                // Optional: Report loading performance
+                if ('performance' in window && 'measure' in performance) {
+                    try {
+                        performance.mark('image-loaded');
+                        performance.measure('image-load-time', 'navigationStart', 'image-loaded');
+                    } catch (e) {
+                        // Ignore performance API errors
+                    }
+                }
+            }
+            
+            function handleImageError() {
+                loadingPlaceholder.innerHTML = `
+                    <div>
+                        <div style="font-size: 2em; margin-bottom: 10px;">⚠️</div>
+                        <div>Failed to load image</div>
+                        <div style="font-size: 0.8em; margin-top: 10px; opacity: 0.7;">Please check your connection</div>
+                    </div>
+                `;
+            }
+            
+            // Check if image is already loaded (cached)
+            if (mainImage.complete && mainImage.naturalHeight !== 0) {
+                handleImageLoad();
+            } else {
+                mainImage.addEventListener('load', handleImageLoad);
+                mainImage.addEventListener('error', handleImageError);
+            }
+            
+            // Preload next resources or implement lazy loading for additional content
+            // This is where you'd add more sophisticated loading strategies
+            
+            // Optional: Add intersection observer for future lazy-loaded content
+            if ('IntersectionObserver' in window) {
+                // Ready for future enhancements
+            }
+            
+            // Optional: Service Worker registration for caching
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                    navigator.serviceWorker.register('/sw.js')
+                        .then(function(registration) {
+                            console.log('SW registered: ', registration);
+                        })
+                        .catch(function(registrationError) {
+                            console.log('SW registration failed: ', registrationError);
+                        });
+                });
+            }
+        })();
+    </script>
 </body>
 </html>
